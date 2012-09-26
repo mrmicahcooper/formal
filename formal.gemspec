@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = [""]
   gem.description   = %q{Helpful form builder used by Rocketeers}
   gem.summary       = %q{A form builder that wraps form fields the way we like it at Hashrocket}
-  gem.homepage      = ""
+  gem.homepage      = "http://github.com/mrmicahcooper/formal"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
