@@ -38,6 +38,10 @@ f.text_area
 f.select
 f.email_field
 f.search_field
+f.telephone_field
+f.number_field
+f.file_field
+f.range_field
 ```
 
 __Example:__
