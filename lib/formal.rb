@@ -5,7 +5,7 @@ module Formal
 
     ActionView::Base.field_error_proc = proc { |input, instance| input }
 
-    @@field_helper_methods = %w(label_tag text_field password_field text_area select email_field search_field)
+    @@field_helper_methods = %w(label_tag text_field password_field text_area select email_field search_field number_field)
 
     def label(method, text = nil, options = {}, &block)
       text = text || method.to_s.humanize
