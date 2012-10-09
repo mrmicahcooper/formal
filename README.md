@@ -62,7 +62,7 @@ Also provided is a helper for a label with a checkbox __inside__ it (which is
 also wrapped in a ```<dt>```). Use:
 
 ```ruby 
-f.checkbox_with_label :published
+f.check_box_with_label :published
 ```
 
 which returns:
