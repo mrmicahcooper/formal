@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "formal"
   gem.require_paths = ["lib"]
   gem.version       = Formal::VERSION
+
+  gem.add_development_dependency("rspec")
 end
