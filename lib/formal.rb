@@ -36,6 +36,5 @@ module Formal
       box = [check_box(method, *args).html_safe, text].join(" ")
       label(method, box, *args)
     end
-
   end
 end
