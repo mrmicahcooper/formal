@@ -32,14 +32,19 @@ describe Formal do
   end
 
   context "with error" do
-    it 'should add error class to dd tag' do
-      @invalid_post = InvalidPost.new
-      with_builder(@invalid_post) do |f|
-        f.text_field :body
-      end
+    let(:invalid_post) { InvalidPost.new }
 
-      expected = %q{<dd class="error"><input id="invalid_post_body" name="invalid_post[body]" size="30" type="text" /></dd>}
-      output.should include(expected)
+    it 'should add error class ONLY to the erroneous dd tag' do
+      with_builder(invalid_post) { |f| f.text_field :body }
+      expected_error = %q{<dd class="error"><input id="invalid_post_body" name="invalid_post[body]" size="30" type="text" /></dd>}
+      output.should include(expected_error)
     end
+
+    it "does not add the error class to non erroneous dd tags" do
+      with_builder(invalid_post) { |f| f.text_field :title }
+      expected_error = %q{<dd><input id="invalid_post_title" name="invalid_post[title]" size="30" type="text" /></dd>}
+      output.should include(expected_error)
+    end
+
   end
 end

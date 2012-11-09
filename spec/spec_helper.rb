@@ -13,11 +13,11 @@ class Post < Struct.new(:body, :published)
   end
 
   def errors
-    []
+    {}
   end
 end
 
-class InvalidPost < Struct.new(:body)
+class InvalidPost < Struct.new(:body, :title)
   extend  ActiveModel::Naming
   include ActiveModel::Conversion
 

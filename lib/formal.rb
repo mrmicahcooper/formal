@@ -23,7 +23,8 @@ module Formal
 
     @@field_helper_methods.each do |method_name|
       define_method method_name do |*args|
-        if object.errors.any?
+        method_name = args.first
+        if object.errors[method_name].present?
           @template.content_tag(:dd, super(*args), class: 'error')
         else
           @template.content_tag(:dd, super(*args))
@@ -37,4 +38,5 @@ module Formal
       label(method, box, *args)
     end
   end
+
 end
