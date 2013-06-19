@@ -16,4 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Formal::VERSION
 
   gem.add_development_dependency("rspec-rails")
+  gem.add_development_dependency("pry")
 end
