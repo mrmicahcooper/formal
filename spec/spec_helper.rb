@@ -45,7 +45,7 @@ module FormalSpecHelper
   end
 
   def with_builder(model = Post.new)
-    @output = form_for(model, builder: Formal::Builder) do |f|
+    @output = form_for(model, builder: Formal::FormBuilder) do |f|
       yield f
     end
   end
