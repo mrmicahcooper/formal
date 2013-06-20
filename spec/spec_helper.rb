@@ -2,9 +2,8 @@ require 'action_view'
 require 'active_model'
 
 require File.expand_path(File.join(File.dirname(__FILE__), '../lib/formal'))
-require 'formal'
 
-class Post < Struct.new(:body, :published)
+class TestValid < Struct.new(:body)
   extend  ActiveModel::Naming
   include ActiveModel::Conversion
 
@@ -17,7 +16,7 @@ class Post < Struct.new(:body, :published)
   end
 end
 
-class InvalidPost < Struct.new(:body, :title)
+class TestInvalid < Struct.new(:body)
   extend  ActiveModel::Naming
   include ActiveModel::Conversion
 
@@ -26,8 +25,12 @@ class InvalidPost < Struct.new(:body, :title)
   end
 
   def errors
-    { :body => ["can't be blank"] }
+    { :body => ["ERROR"] }
   end
+end
+
+def fixture_locale(local_name)
+  File.expand_path("../fixtures/locales/#{local_name}.yml", __FILE__)
 end
 
 module FormalSpecHelper
@@ -35,10 +38,11 @@ module FormalSpecHelper
   include ActionController::RecordIdentifier
   include ActionView::Helpers::FormHelper
 
-  def posts_path(*args)
-    "/posts"
+  def path(*args)
+    "/test_path"
   end
-  alias :invalid_posts_path :posts_path
+  alias :test_invalids_path :path
+  alias :test_valids_path :path
 
   def protect_against_forgery?
     false
@@ -48,9 +52,5 @@ module FormalSpecHelper
     @output = form_for(model, builder: Formal::FormBuilder) do |f|
       yield f
     end
-  end
-
-  def output
-    @output
   end
 end

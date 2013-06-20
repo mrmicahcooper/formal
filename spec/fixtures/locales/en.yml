@@ -1,0 +1,7 @@
+en:
+  helpers:
+    label:
+      test_invalid:
+        body: 'INVALID'
+      test_valid:
+        body: 'VALID'

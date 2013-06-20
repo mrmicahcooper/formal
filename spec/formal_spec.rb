@@ -1,28 +1,100 @@
 require 'spec_helper'
+require 'formal'
 
 describe Formal::FormBuilder do
   include FormalSpecHelper
 
-  before do
-    @post = Post.new
-    @output = ''
-  end
+  describe "#label" do
+    describe 'when in a valid state' do
+      context 'and local is unavailable' do
+        it 'returns a properly populated label element' do
+          form_for(TestValid.new, builder: described_class) do |f|
+            label = f.label(:body)
+            expected_result = "<label for=\"test_valid_body\">Body</label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
 
-  it 'should yield the formal builder' do
-    form_for(@post, builder: described_class) do |f|
-      f.should be_kind_of(described_class)
+      context 'and locale is available' do
+        before do
+          I18n.config.backend.load_translations(fixture_locale(:en))
+        end
+
+        after do
+          I18n.config.backend.reload!
+        end
+
+        it 'returns a properly populated label element' do
+          form_for(TestValid.new, builder: described_class) do |f|
+            label = f.label(:body)
+            expected_result = "<label for=\"test_valid_body\">VALID</label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
     end
-  end
 
-  it 'should wrap check box with label inside' do
-    with_builder do |f|
-      f.check_box_with_label :published
+    describe "when in an invalid state" do
+      context "and locale is unavailable" do
+        it 'returns a label with nested error element' do
+          form_for(TestInvalid.new, builder: described_class) do |f|
+            label = f.label(:body)
+            expected_result = "<label for=\"test_invalid_body\">Body <span class=\"error\">ERROR</span></label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
+
+      context 'and locale is available' do
+        before do
+          I18n.config.backend.load_translations(fixture_locale(:en))
+        end
+
+        after do
+          I18n.config.backend.reload!
+        end
+
+        it 'returns a label with nested error element' do
+          form_for(TestInvalid.new, builder: described_class) do |f|
+            label = f.label(:body)
+            expected_result = "<label for=\"test_invalid_body\">INVALID <span class=\"error\">ERROR</span></label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
     end
-    expected = %q{<dt><label for="post_published"><input name="post[published]" type="hidden" value="0" /><input id="post_published" name="post[published]" type="checkbox" value="1" /> published</label></dt>}
-    output.should include(expected)
-  end
 
-  context "with error" do
-    let(:invalid_post) { InvalidPost.new }
+    describe 'error element' do
+      context 'when default' do
+        it 'returns span markup' do
+          form_for(TestInvalid.new, builder: described_class) do |f|
+            label = f.label(:body)
+            expected_result = "<label for=\"test_invalid_body\">Body <span class=\"error\">ERROR</span></label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
+
+      context 'when passed in' do
+        it 'returns passed in markup' do
+          form_for(TestInvalid.new, builder: described_class) do |f|
+            label = f.label(:body, nil, error_element: :small)
+            expected_result = "<label for=\"test_invalid_body\">Body <small class=\"error\">ERROR</small></label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
+    end
+
+    describe 'hide errors' do
+      it 'removes error markup' do
+        form_for(TestInvalid.new, builder: described_class) do |f|
+          label = f.label(:body, nil, hide_errors: true)
+          expected_result = "<label for=\"test_invalid_body\">Body</label>"
+          expect(label).to eq(expected_result)
+        end
+      end
+    end
   end
 end

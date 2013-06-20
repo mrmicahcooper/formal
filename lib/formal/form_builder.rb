@@ -1,19 +1,21 @@
 module Formal
   class FormBuilder < ActionView::Helpers::FormBuilder
-    ActionView::Base.field_error_proc = proc { |input, instance| input }
-
     def label(method, text = nil, options = {}, &block)
-      text = text || method.to_s.humanize
+      error_element = options.delete(:error_element) || :span
+      hide_errors   = options.delete(:hide_errors)
+      i18n_text     = I18n.t("#{object_name}.#{method}", default: '', scope: "helpers.label").presence
+      text          = i18n_text || method.to_s.humanize
 
-      if object.errors.any?
-        error_message = object.errors[method]
-        errors = error_message.is_a?(Array) ? error_message.first : error_message
-        error_span = @template.content_tag(:span, errors, class: 'error')
-        text << " #{error_span}"
-        @template.content_tag(:dt, super(method, text.html_safe, options, &block), class: 'error')
-      else
-        @template.content_tag(:dt, super(method, text.html_safe, options, &block))
+      unless object.nil? || hide_errors
+        errors = object.errors[method.to_sym]
+        if errors.present?
+          error_message = errors.is_a?(Array) ? errors.first : errors
+          error_markup = @template.content_tag(error_element, error_message, class: 'error')
+          text << " #{error_markup}"
+        end
       end
+
+      super(method, text.html_safe, options, &block)
     end
 
     def check_box_with_label(method, text = nil, *args)

@@ -15,6 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Formal::VERSION
 
-  gem.add_development_dependency("rspec-rails")
+  gem.add_development_dependency("rspec-rails", "2.14.0.rc1")
   gem.add_development_dependency("pry")
 end
