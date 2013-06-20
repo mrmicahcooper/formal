@@ -4,7 +4,7 @@ module Formal
       error_element = options.delete(:error_element) || :span
       hide_errors   = options.delete(:hide_errors)
       i18n_text     = I18n.t("#{object_name}.#{method}", default: '', scope: "helpers.label").presence
-      text          = i18n_text || method.to_s.humanize
+      text          = i18n_text || text || method.to_s.humanize
 
       unless object.nil? || hide_errors
         errors = object.errors[method.to_sym]

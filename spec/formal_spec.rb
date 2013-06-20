@@ -6,6 +6,16 @@ describe Formal::FormBuilder do
 
   describe "#label" do
     describe 'when in a valid state' do
+      context 'and text is provided' do
+        it 'returns element with provided text' do
+          form_for(TestValid.new, builder: described_class) do |f|
+            label = f.label(:body, "PROVIDED TEXT")
+            expected_result = "<label for=\"test_valid_body\">PROVIDED TEXT</label>"
+            expect(label).to eq(expected_result)
+          end
+        end
+      end
+
       context 'and local is unavailable' do
         it 'returns a properly populated label element' do
           form_for(TestValid.new, builder: described_class) do |f|
