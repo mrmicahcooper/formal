@@ -1,5 +1,9 @@
 # Formal
 
+[![Gem Version](https://badge.fury.io/rb/formal.png)](http://badge.fury.im/rb/formal)
+[![Build Status](https://travis-ci.org/mrmicahcooper/formal.png?branch=master)](https://travis-ci.org/mrmicahcooper/formal)
+[![Code Climate](https://codeclimate.com/github/mrmicahcooper/formal.png)](https://codeclimate.com/github/mrmicahcooper/formal)
+
 Formal is simply a form builder that provides the markup we typically use
 around form fields on Hashrocket projects.
 
@@ -19,67 +23,27 @@ Or install it yourself as:
 
 ## Usage
 
-Specify the builder option in your form_for parameters
+Specify the builder option in your `form_for` parameters
 
 ```ruby
-= form_for post, builder: Formal::Builder do |f| 
+form_for(obj, builder: Formal::FormBuilder)
 ```
 
+### Label
 
-```f.label``` gets wrapped in a ```<dt>``` or a ```<dt class="error">```(wherethere is an error)
+Label is created with error messaging within `label` element
 
-
-The following get wrapped in a ```<dd>``` or a ```<dd class="error">```:
+Example:
 
 ```ruby
-f.text_field
-f.password_field
-f.text_area
-f.select
-f.email_field
-f.search_field
-f.telephone_field
-f.number_field
-f.file_field
-f.range_field
+= f.label attribute
 ```
 
-__Example:__
-
-```ruby
-f.text_field :body 
-```
-
-returns
-
-```HTML
-<dd>
-  <input type="text" id="post_body" name="post[body]" />
-</dd>
-```
-
-Also provided is a helper for a label with a checkbox __inside__ it (which is
-also wrapped in a ```<dt>```). Use:
-
-```ruby 
-f.check_box_with_label :published
-```
-
-which returns:
+When `obj.attribute` is in an invalid state the markup returned will be like:
 
 ```html
-<dt>
-  <label for="post_published">
-     <input name="post[published]" type="hidden" value="0" />
-     <input id="post_published" name="post[published]" type="checkbox" value="1" /> 
-     published
-  </label>
-</dt>
+<label for='obj_attribute'>Attribute <span class='error'>Error message</span></label>
 ```
-
-
-
-
 
 ## Contributing
 
