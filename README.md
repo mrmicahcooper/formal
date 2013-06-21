@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/mrmicahcooper/formal.png?branch=master)](https://travis-ci.org/mrmicahcooper/formal)
 [![Code Climate](https://codeclimate.com/github/mrmicahcooper/formal.png)](https://codeclimate.com/github/mrmicahcooper/formal)
 
-Formal is simply a form builder that provides the markup we typically use
+Formal is simply a form builder that provides the markup typically used
 around form fields on Hashrocket projects.
 
 ## Installation
@@ -44,6 +44,17 @@ When `obj.attribute` is in an invalid state the markup returned will be like:
 ```html
 <label for='obj_attribute'>Attribute <span class='error'>Error message</span></label>
 ```
+
+## Rails Default Form Builder
+
+To make formal the default form builder for your application, just run:
+
+```ruby
+rails g formal:install
+```
+
+This removes the need to add the `builder: Formal::FormBuilder` option to your
+`form_for`
 
 ## Contributing
 
